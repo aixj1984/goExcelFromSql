@@ -24,8 +24,6 @@ func main() {
 	//orm.RunSyncdb("default", false, true)
 	orm.Debug = true
 
-	//resultPointer, columnsPointer := sqlFetch(db, query)
-
 	values, err := ExcelSql("select * from temp_model limit 0,10")
 
 	var column_name_map map[string]string
@@ -33,8 +31,8 @@ func main() {
 	column_name_map = make(map[string]string)
 	column_name_map["chart_type"] = "图形类型"
 
-	if err == nil && len(values) > 0 {
-		ExportExcel(&values, "abc.xlsx", column_name_map)
+	if err == nil && len(*values) > 0 {
+		ExportExcel(values, "abc.xlsx", column_name_map)
 	}
 
 	//excel(resultPointer, columnsPointer)
@@ -59,7 +57,7 @@ func timeFriendly(second float64) string {
 	return ""
 }
 
-func ExcelSql(sql string) ([]orm.Params, error) {
+func ExcelSql(sql string) (*[]orm.Params, error) {
 	var values []orm.Params
 	var num int64
 	var err error
@@ -68,7 +66,7 @@ func ExcelSql(sql string) ([]orm.Params, error) {
 	num, err = o.Raw(sql).Values(&values)
 
 	if num > 0 && err == nil {
-		return values, nil
+		return &values, nil
 	}
 	return nil, err
 }
