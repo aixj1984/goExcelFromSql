@@ -1,4 +1,4 @@
 {
-    "dsn": "test_admin:test_admin@tcp(192.168.1.234:3306)/test_kc_data_report",
-    "query": "select brand,brand_code,name from bd_product_list_2 limit 0,10"
+    "dsn": "root:mypassword@tcp(10.0.12.104:3306)/sale_stat",
+    "query": "select * from temp_model limit 0,10"
 }
