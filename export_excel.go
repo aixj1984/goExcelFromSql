@@ -2,17 +2,21 @@ package main
 
 import (
 	"fmt"
-	"os"
+	//	"os"
 	"strconv"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/astaxie/beego/orm"
 )
 
-func ExportExcel(result *[]orm.Params, filepath string, column_map map[string]string) {
+func ExportExcel(result *[]orm.Params, filepath string, column_map map[string]string) bool {
 	//xlsx := excelize.CreateFile()
 
 	columns := GetColumns(result)
+
+	if columns == nil {
+		return false
+	}
 
 	xlsx := excelize.NewFile()
 
@@ -73,8 +77,9 @@ func ExportExcel(result *[]orm.Params, filepath string, column_map map[string]st
 	err := xlsx.SaveAs(filepath)
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
+		return false
 	}
+	return true
 }
 
 func GetColumns(values *[]orm.Params) *[]string {
